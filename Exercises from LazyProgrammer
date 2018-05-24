@@ -1,0 +1,55 @@
+-- Create tables "Ordered Items" and "CustomerID"
+
+create table ordered_items(
+    customerid Integer,
+    order_data Date,
+    item Text,
+    Quantity Integer,
+    Price Real);
+
+create table customers(
+    customerid Integer,
+    firstname Text,
+    lastname Text,
+    city Text,
+    state Text);
+)
+
+-- Copy ordered_items data into tables.
+
+copy ordered_items from '/Users/sauce/Desktop/ordered_items.csv' delimiter ',' CSV HEADER;
+
+-- Copy customers data into tables.
+
+copy customers from '/Users/sauce/Desktop/customers.csv' delimiter ',' CSV HEADER;
+
+-- 1. What are the unique items purches by the people who live in Oregon?
+
+select * from ordered_items
+
+select distinct(item) from ordered_items
+	inner join customers on ordered_items.customerid = customers.customerid
+and state = 'Oregon';
+
+-- The three unique items purchased by people in oregon are "Flashlight", "Pogo Stick", and "Shovel"
+
+-- 2. What is the most popular item from people in Colorado?
+
+select * from ordered_items
+
+select item, sum(quantity) as cnt from ordered_items
+	inner join customers on ordered_items.customerid = customers.customerid
+and state = 'Colorado'
+group by item
+order by cnt desc;
+
+select * from customers
+
+-- 3. Which state purchased the most items?
+
+select state as place, sum(quantity) as cnt from ordered_items
+	inner join customers on ordered_items.customerid = customers.customerid
+group by place
+order by cnt desc;
+
+-- Arizona is purchased the most items (18)
