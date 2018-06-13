@@ -1,3 +1,3 @@
 # SQL-Practice
 
-Various exercises to practice SQL Coding. 
+Random SQL Practice.
